@@ -6,9 +6,9 @@
 /* Layout: dark app bar → centered 1120px column → status notices → white sheet holding a dark certificate card (2-col body, stacks on phones) → CTA band → footer */
 :root{
   --page:#F2F4F3; --sheet:#FFFFFF; --ink:#1D2321; --ink-soft:#5B6662; --line:#E1E6E4;
-  --bar:#202524; --bar-ink:#F4F7F6;
+  --bar:#2B2F31; --bar-ink:#F4F7F6;
   --accent:#12A88F; --accent-ink:#FFFFFF; --accent-soft:#DDF3EE; --accent-text:#0B7A67;
-  --note:#ECEFEE; --sample:#0A7C70; --sample-soft:#D0EEEB; --sample-icon:#03C7B4;
+  --note:#EFF1F0; --sample:#0A7C70; --sample-soft:#D0EEEB; --sample-icon:#03C7B4;
   /* certificate stays dark in both themes */
   --cert-bg:#232726; --cert-bg-2:#1B1F1E; --cert-ink:#F2F5F4; --cert-mute:#A7B2AE;
   --cert-name:#F3CD8E; --cert-amount:#2FD2B4; --cert-band:#1B5A55;
@@ -19,12 +19,12 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --page:#121615; --sheet:#1A1F1E; --ink:#E6ECEA; --ink-soft:#9AA6A2; --line:#2B3331;
-  --bar:#0C0F0E; --bar-ink:#F4F7F6; --accent:#22BFA3; --accent-ink:#06201B; --accent-soft:#143A33; --accent-text:#5FE0C6;
-  --note:#202725; --sample:#7FE3D6; --sample-soft:#123B37; --sample-icon:#03C7B4; color-scheme:dark}}
+  --bar:#1E2224; --bar-ink:#F4F7F6; --accent:#22BFA3; --accent-ink:#06201B; --accent-soft:#143A33; --accent-text:#5FE0C6;
+  --note:#161B1A; --sample:#7FE3D6; --sample-soft:#123B37; --sample-icon:#03C7B4; color-scheme:dark}}
 :root[data-theme="dark"]{
   --page:#121615; --sheet:#1A1F1E; --ink:#E6ECEA; --ink-soft:#9AA6A2; --line:#2B3331;
-  --bar:#0C0F0E; --bar-ink:#F4F7F6; --accent:#22BFA3; --accent-ink:#06201B; --accent-soft:#143A33; --accent-text:#5FE0C6;
-  --note:#202725; --sample:#7FE3D6; --sample-soft:#123B37; --sample-icon:#03C7B4; color-scheme:dark}
+  --bar:#1E2224; --bar-ink:#F4F7F6; --accent:#22BFA3; --accent-ink:#06201B; --accent-soft:#143A33; --accent-text:#5FE0C6;
+  --note:#161B1A; --sample:#7FE3D6; --sample-soft:#123B37; --sample-icon:#03C7B4; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--page);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -32,11 +32,10 @@ body{background:var(--page);color:var(--ink);font-family:var(--f-ui);font-size:1
 
 /* App bar */
 .bar{background:var(--bar);color:var(--bar-ink)}
-.bar .wrap{height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.bar .wrap{max-width:none;height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:20px;letter-spacing:.04em;color:inherit;text-decoration:none}
 .brand svg{width:30px;height:30px;flex:none}
 .brand small{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.6;align-self:flex-start;margin-top:4px}
-.lang{font-size:13px;opacity:.75}
 
 main{padding-block:32px 24px;display:grid;gap:16px}
 
@@ -76,7 +75,7 @@ main{padding-block:32px 24px;display:grid;gap:16px}
 .name{font-size:clamp(24px,4.4cqi,32px);font-weight:600;line-height:1.12;color:var(--cert-name);margin:6px 0 14px;text-wrap:balance}
 .label{font-size:clamp(15px,2.6cqi,19px);font-weight:500;margin:0}
 .amount{font-size:clamp(44px,9cqi,68px);font-weight:700;color:var(--cert-amount);line-height:1.1;margin:6px 0 0;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.amount sup{font-size:.28em;font-weight:600;letter-spacing:.1em;vertical-align:.95em;margin-left:.4em;color:var(--cert-mute);text-transform:uppercase}
+.amount sup{display:block;font-size:.22em;line-height:1.2;font-weight:600;letter-spacing:.14em;vertical-align:baseline;margin-top:.2em;color:var(--cert-mute);text-transform:uppercase}
 
 .qr{width:clamp(120px,20cqi,148px);aspect-ratio:1;max-width:100%;background:#FFFFFF;border-radius:10px;padding:10px;position:relative;box-shadow:0 0 0 3px rgb(255 255 255 / .12)}
 .qr canvas{width:100%;height:100%;display:block;image-rendering:pixelated;opacity:.32}
@@ -131,11 +130,10 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
 
 <header class="bar">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Acme Trading, marca ficticia">
+    <a class="brand" href="#top" aria-label="Acme Trading, fictional brand">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><rect x="8" y="16" width="4" height="9" rx="1" fill="currentColor"/><rect x="14" y="11" width="4" height="14" rx="1" fill="currentColor"/><rect x="20" y="7" width="4" height="18" rx="1" fill="#2FD2B4"/></svg>
       ACME <small>demo</small>
     </a>
-    <span class="lang">ES</span>
   </div>
 </header>
 
@@ -146,7 +144,7 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
             <i class="fi fi--binfo"></i>
         </div>
     </div>
-    <span><b>Vista previa de diseño.</b> Acme Trading es una marca ficticia. El nombre, el monto, la firma y el código son datos de ejemplo y esta página no verifica nada.</span>
+    <span><b>Design preview.</b> Acme Trading is a fictional brand. The name, amount, signature and code are sample data, and this page does not verify anything.</span>
   </div>
   <div class="notice info" role="note">
     <div class="alert__content-header">
@@ -154,69 +152,69 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
             <i class="fi fi--binfo"></i>
         </div>
     </div>
-    <span>En un producto real, este espacio indicaría que el nombre del certificado coincide con el de la persona que lo comparte.</span>
+    <span>In a real product, this space would confirm that the name on the certificate matches the person sharing it.</span>
   </div>
 
-  <section class="sheet" aria-label="Certificado de ejemplo">
+  <section class="sheet" aria-label="Sample certificate">
     <article class="cert">
-      <div class="watermark" aria-hidden="true"><span>MUESTRA</span></div>
+      <div class="watermark" aria-hidden="true"><span>SAMPLE</span></div>
       <div class="cert-top">
         <div class="cert-logo">
           <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><rect x="8" y="16" width="4" height="9" rx="1" fill="currentColor"/><rect x="14" y="11" width="4" height="14" rx="1" fill="currentColor"/><rect x="20" y="7" width="4" height="18" rx="1" fill="#2FD2B4"/></svg>
           ACME
         </div>
-        <h1 class="cert-title">Recompensa</h1>
+        <h1 class="cert-title">Reward</h1>
       </div>
       <div class="band" aria-hidden="true"></div>
       <div class="cert-body">
         <div>
-          <p class="presented">Otorgado a:</p>
-          <p class="name">Alex Ejemplo Muestra</p>
-          <p class="label">Tu recompensa</p>
-          <p class="amount">$1,234.56<sup>ejemplo</sup></p>
+          <p class="presented">Presented to:</p>
+          <p class="name">Alex Sample Person</p>
+          <p class="label">Your reward</p>
+          <p class="amount">$1,234.56<sup>sample</sup></p>
         </div>
-        <div class="qr" role="img" aria-label="Marcador de posición de código, no escaneable">
+        <div class="qr" role="img" aria-label="Code placeholder, not scannable">
           <canvas id="qr" width="29" height="29"></canvas>
-          <span>Código<br>de<br>ejemplo</span>
+          <span>Sample<br>code</span>
         </div>
       </div>
       <div class="cert-foot">
         <div class="sig">
-          <div class="val">14 oct 2026</div>
-          <div class="cap">Fecha</div>
+          <div class="val">14 Oct 2026</div>
+          <div class="cap">Date</div>
         </div>
         <div class="sig">
-          <div class="val hand">Firma de muestra</div>
-          <div class="cap">Firma de ejemplo, sin titular</div>
+          <div class="val hand">Sample signature</div>
+          <div class="cap">Sample signature, no signatory</div>
         </div>
       </div>
     </article>
 
     <div class="meta">
-      <span>Referencia de ejemplo: <code>DEMO-0000-0000</code></span>
-      <span>Plantilla de certificado v2, propuesta de rediseño</span>
+      <span>Sample reference: <code>DEMO-0000-0000</code></span>
+      <span>Certificate template v2, redesign proposal</span>
     </div>
   </section>
 
   <div class="cta">
     <div>
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>¿Querés empezar tu propia evaluación de trading?</span>
+      <span>Ready to start your own trading evaluation?</span>
     </div>
-    <a class="btn" href="#top">Empezar evaluación</a>
+    <a class="btn" href="#top">Start evaluation</a>
   </div>
 </main>
 
 <footer class="wrap">
   <nav class="links" aria-label="Legal">
-    <a href="#top">Política de privacidad</a>
-    <a href="#top">Términos y condiciones</a>
+    <a href="#top">Privacy policy</a>
+    <a href="#top">Terms &amp; Conditions</a>
   </nav>
-  <p class="legal">Texto legal de ejemplo. La información de este sitio tiene fines educativos sobre el trading en mercados financieros y no constituye una recomendación de inversión. Acme Trading es una marca ficticia creada para esta propuesta de diseño.</p>
+  <p class="legal">Sample legal text. The information on this site is for educational purposes about trading on financial markets and is not investment advice. Acme Trading is a fictional brand created for this design proposal.</p>
   <p class="copy">2026 © Acme Trading (demo)</p>
 </footer>
 
-<button class="chat" type="button" aria-label="Abrir chat de soporte (demo)">
+<button class="chat" type="button" aria-label="Open support chat (demo)">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.5 3 2 6.8 2 11.5c0 2.3 1.1 4.4 2.9 5.9L4 21l4.2-2.1c1.2.4 2.5.6 3.8.6 5.5 0 10-3.8 10-8.5S17.5 3 12 3z" fill="currentColor"/><circle cx="8" cy="11.5" r="1.2" fill="var(--accent)"/><circle cx="12" cy="11.5" r="1.2" fill="var(--accent)"/><circle cx="16" cy="11.5" r="1.2" fill="var(--accent)"/></svg>
 </button>
 
