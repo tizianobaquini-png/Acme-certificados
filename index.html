@@ -8,7 +8,7 @@
   --page:#F2F4F3; --sheet:#FFFFFF; --ink:#1D2321; --ink-soft:#5B6662; --line:#E1E6E4;
   --bar:#202524; --bar-ink:#F4F7F6;
   --accent:#12A88F; --accent-ink:#FFFFFF; --accent-soft:#DDF3EE; --accent-text:#0B7A67;
-  --note:#ECEFEE; --sample:#B45309; --sample-soft:#FDF1E3;
+  --note:#ECEFEE; --sample:#0A7C70; --sample-soft:#D0EEEB; --sample-icon:#03C7B4;
   /* certificate stays dark in both themes */
   --cert-bg:#232726; --cert-bg-2:#1B1F1E; --cert-ink:#F2F5F4; --cert-mute:#A7B2AE;
   --cert-name:#F3CD8E; --cert-amount:#2FD2B4; --cert-band:#1B5A55;
@@ -20,11 +20,11 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --page:#121615; --sheet:#1A1F1E; --ink:#E6ECEA; --ink-soft:#9AA6A2; --line:#2B3331;
   --bar:#0C0F0E; --bar-ink:#F4F7F6; --accent:#22BFA3; --accent-ink:#06201B; --accent-soft:#143A33; --accent-text:#5FE0C6;
-  --note:#202725; --sample:#F5B169; --sample-soft:#3A2A17; color-scheme:dark}}
+  --note:#202725; --sample:#7FE3D6; --sample-soft:#123B37; --sample-icon:#03C7B4; color-scheme:dark}}
 :root[data-theme="dark"]{
   --page:#121615; --sheet:#1A1F1E; --ink:#E6ECEA; --ink-soft:#9AA6A2; --line:#2B3331;
   --bar:#0C0F0E; --bar-ink:#F4F7F6; --accent:#22BFA3; --accent-ink:#06201B; --accent-soft:#143A33; --accent-text:#5FE0C6;
-  --note:#202725; --sample:#F5B169; --sample-soft:#3A2A17; color-scheme:dark}
+  --note:#202725; --sample:#7FE3D6; --sample-soft:#123B37; --sample-icon:#03C7B4; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--page);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -44,12 +44,13 @@ main{padding-block:32px 24px;display:grid;gap:16px}
 .notice{display:flex;gap:12px;align-items:flex-start;padding:16px 20px;border-radius:6px;font-size:13.5px}
 .alert__content-header{display:flex;flex:none}
 .alert__icon{display:flex;width:18px;height:18px;margin-top:1px}
-/* Icon: rounded box with inverted exclamation (dot on top, bar below). Drawn as a mask so it takes the notice color. */
+/* Icon: speech-bubble box with an exclamation mark. Drawn as a mask so it takes the notice color. */
 .fi{display:inline-block;width:18px;height:18px;flex:none;background:currentColor;
   -webkit-mask:var(--fi-mask) center/contain no-repeat;mask:var(--fi-mask) center/contain no-repeat}
-.fi--binfo{--fi-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='2.8' y='2.8' width='14.4' height='14.4' rx='3' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3Ccircle cx='10' cy='6.4' r='1.15'/%3E%3Cpath d='M10 9.2v4.8' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")}
+.fi--binfo{--fi-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='4 6 39 39'%3E%3Cpath d='M10 10H37Q39 10 39 12V35Q39 37 37 37H26L23.5 40L21 37H10Q8 37 8 35V12Q8 10 10 10Z' fill='none' stroke='%23000' stroke-width='4' stroke-linejoin='round'/%3E%3Crect x='22' y='17' width='3' height='9' rx='1'/%3E%3Crect x='22' y='29' width='3' height='4' rx='1.5'/%3E%3C/svg%3E")}
 .notice b{font-weight:600}
 .notice.sample{background:var(--sample-soft);color:var(--sample)}
+.notice.sample .fi{background:var(--sample-icon)}
 .notice.info{background:var(--note);color:var(--ink-soft)}
 
 /* Sheet */
