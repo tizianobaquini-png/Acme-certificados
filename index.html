@@ -36,6 +36,10 @@ body{background:var(--page);color:var(--ink);font-family:var(--f-ui);font-size:1
 .bar .wrap{max-width:none;height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:20px;letter-spacing:.04em;color:inherit;text-decoration:none}
 .brand svg{width:30px;height:30px;flex:none}
+.brand-default{display:flex;align-items:center;gap:10px}
+.brand-img{display:none;height:36px;width:auto;max-width:220px;object-fit:contain}
+.brand.has-logo .brand-img{display:block}
+.brand.has-logo .brand-default{display:none}
 .brand small{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.6;align-self:flex-start;margin-top:4px}
 
 main{padding-block:32px 24px;display:grid;gap:16px}
@@ -128,8 +132,12 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
 <header class="bar">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Acme Trading, fictional brand">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><rect x="8" y="16" width="4" height="9" rx="1" fill="currentColor"/><rect x="14" y="11" width="4" height="14" rx="1" fill="currentColor"/><rect x="20" y="7" width="4" height="18" rx="1" fill="#2FD2B4"/></svg>
-      ACME <small>demo</small>
+      <!-- Logo: upload a file named logo.png to the repo root and it replaces the default mark + name below -->
+      <img class="brand-img" src="logo.png" alt="" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()">
+      <span class="brand-default">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><rect x="8" y="16" width="4" height="9" rx="1" fill="currentColor"/><rect x="14" y="11" width="4" height="14" rx="1" fill="currentColor"/><rect x="20" y="7" width="4" height="18" rx="1" fill="#2FD2B4"/></svg>
+        ACME <small>demo</small>
+      </span>
     </a>
   </div>
 </header>
