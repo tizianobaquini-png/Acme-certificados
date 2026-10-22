@@ -193,6 +193,89 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
 #certificado { display: none; }
 #certificado.visible { display: block; animation: aparecer .6s ease; }
 @keyframes aparecer { from { opacity: 0; } to { opacity: 1; } }
+
+ /* ===== Live Chat ===== */
+#lc-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9998;
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  border: none;
+  border-radius: 29px;
+  background: linear-gradient(90deg, #5b73e8, #1a7cff);
+  box-shadow: 0 6px 14px rgba(26, 124, 255, .25);
+  cursor: pointer;
+  transition: width .45s ease;
+}
+#lc-btn:hover { width: 210px; }
+
+.lc-texto {
+  position: absolute;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font: 700 21px Arial, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+#lc-btn:hover .lc-texto { opacity: 1; transition-delay: .15s; }
+
+.lc-icono {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  width: 66px;
+  height: 66px;
+}
+.lc-icono svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.lc-azul, .lc-blanco { transform-origin: 33px 33px; transition: transform .6s ease; }
+#lc-btn:hover .lc-azul   { transform: rotate(220deg); }
+#lc-btn:hover .lc-blanco { transform: rotate(175deg); }
+
+#lc-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
+  z-index: 9999;
+  width: 370px;
+  height: 560px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 120px);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(16px) scale(.97);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+#lc-panel.abierto { opacity: 1; transform: none; pointer-events: auto; }
+
+.lc-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, #5b73e8, #1a7cff);
+  color: #fff;
+  font: 700 16px Arial, sans-serif;
+}
+#lc-cerrar { background: none; border: none; color: #fff; font-size: 26px; line-height: 1; cursor: pointer; }
+#lc-frame { flex: 1; width: 100%; border: none; }
+
+@media (max-width: 480px) {
+  #lc-panel { right: 16px; bottom: 90px; }
+} 
 </style>
 
 <header class="bar">
@@ -242,7 +325,35 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
 <div id="certificado" class="recuadro" style="background:#FFFFFF; padding:24px 280px; border-radius:6px; box-shadow:0 4px 20px rgba(0,0,0,0.08); width:fit-content; max-width:100%; margin:0 auto;">
 <img id="certImg" alt="Certificado" style="display:block; width:640px !important; max-width:100% !important; height:auto !important; max-height:none !important; border-radius:3px;">
 </div>
+  
+<!-- ===== Live Chat ===== -->
+<div id="lc-panel">
+  <div class="lc-cabecera">
+    <span>Live Chat</span>
+    <button id="lc-cerrar" aria-label="Cerrar">&times;</button>
+  </div>
+  <iframe id="lc-frame" title="Live Chat"></iframe>
+</div>
 
+<button id="lc-btn" title="Live chat button" aria-label="Live chat">
+  <span class="lc-texto">Live Chat</span>
+  <span class="lc-icono">
+    <svg viewBox="0 0 66 66">
+      <g class="lc-azul">
+        <circle cx="33" cy="33" r="29" fill="#0a7cff"/>
+        <path d="M50 52 L65 61 L58 45 Z" fill="#0a7cff"/>
+      </g>
+      <g class="lc-blanco">
+        <circle cx="33" cy="33" r="19" fill="#fff"/>
+        <path d="M20 43 L13 49 L24 48 Z" fill="#fff"/>
+      </g>
+      <circle cx="26" cy="33" r="2" fill="#0a7cff"/>
+      <circle cx="33" cy="33" r="2" fill="#0a7cff"/>
+      <circle cx="40" cy="33" r="2" fill="#0a7cff"/>
+    </svg>
+  </span>
+</button>
+  
 <script>
   var API = "https://payout-certify.vercel.app";
   var id = new URLSearchParams(location.search).get("id");
@@ -273,7 +384,21 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
       $("certImg").src = API + "/api/verify/" + encodeURIComponent(c.certificateId) + "/image";
     })
     .catch(quitarLoader);
+
+ (function () {
+  var LIVE_CHAT_URL = "https://ftmo.ladesk.com/scripts/generateWidget.php?v=5.68.9.20261009082817&t=1792018010&cwid=4ig96k9v&cwt=onlineform_mobile&vid=pgivl55wv69lb5fu40juhq8l0krhyt30&ud=%7B%7D&pt=Certificates%20%7C%20FTMO&ref=https%3A%2F%2Ftrader.ftmo.com%2Fcertificates%2Fverify%3Fhash%3DLRXaJvh5i5QekhvER6zxBw%253D%253D";
+  var panel = document.getElementById("lc-panel");
+  var frame = document.getElementById("lc-frame");
+  document.getElementById("lc-btn").addEventListener("click", function () {
+    if (!frame.src) frame.src = LIVE_CHAT_URL;
+    panel.classList.toggle("abierto");
+  });
+  document.getElementById("lc-cerrar").addEventListener("click", function () {
+    panel.classList.remove("abierto");
+  });
+})(); 
 </script>
+  
     </article>
   </section>
 
