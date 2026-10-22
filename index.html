@@ -135,18 +135,27 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
   html, body { max-width: 100%; overflow-x: hidden; }
 
   #loader {
-  position: fixed;
-  inset: 0;
-  background: #ffffff;
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 9999;
-  transition: opacity .5s ease;
+  align-items: center;
+  padding: 40px 0;
 }
-#loader.oculto { opacity: 0; pointer-events: none; }
 
-.loader-wrap { position: relative; width: 160px; height: 160px; }
+.loader-wrap {
+  position: relative;
+  width: 160px;    /* tamaño total: cambia solo este número */
+  aspect-ratio: 1;
+}
+
+.loader-logo {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  object-fit: contain;
+}
 
 .loader-flecha {
   position: absolute;
@@ -166,24 +175,11 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
 }
 
 @keyframes girar { to { transform: rotate(360deg); } }
-</style>
 
-<!-- Pantalla de carga -->
-<div id="loader">
-  <div class="loader-wrap">
-    <svg class="loader-flecha" viewBox="0 0 100 100">
-      <defs>
-        <marker id="punta" viewBox="0 0 10 10" refX="5" refY="5"
-                markerWidth="4" markerHeight="4" orient="auto">
-          <path d="M0,0 L10,5 L0,10 z" fill="#c9a227"/>
-        </marker>
-      </defs>
-      <path d="M50 4 A46 46 0 1 1 4 50" fill="none" stroke="#c9a227"
-            stroke-width="3" stroke-linecap="round" marker-end="url(#punta)"/>
-    </svg>
-    <img src="logo.png" alt="Logo" class="loader-logo">
-  </div>
-</div>
+#certificado { display: none; }
+#certificado.visible { display: block; animation: aparecer .6s ease; }
+@keyframes aparecer { from { opacity: 0; } to { opacity: 1; } }
+</style>
 
 <header class="bar">
   <div class="wrap">
@@ -213,24 +209,58 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
 
 <!-- Dónde va cada cosa: ubicalos donde quieras dentro de tu diseño -->
 <h1 id="estado" style="display:none"></h1>
-<div class="recuadro" style="background:#FFFFFF; padding:24px 280px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); width:fit-content; max-width:100%; margin:0 auto;">
+
+<!-- Pantalla de carga -->
+<div id="loader">
+  <div class="loader-wrap">
+    <svg class="loader-flecha" viewBox="0 0 100 100">
+      <defs>
+        <marker id="punta" viewBox="0 0 10 10" refX="5" refY="5"
+                markerWidth="4" markerHeight="4" orient="auto">
+         <path d="M0,0 L10,5 L0,10 z" fill="#333333"/>
+        </marker>
+      </defs>
+    <path d="M50 4 A46 46 0 1 1 4 50" fill="none" stroke="#333333"
+            stroke-width="3" stroke-linecap="round" marker-end="url(#punta)"/>
+    </svg>
+    <img src="logo.png" alt="Logo" class="loader-logo">
+  </div>
+</div>
+
+<div id="certificado" class="recuadro" style="background:#FFFFFF; padding:24px 280px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); width:fit-content; max-width:100%; margin:0 auto;">
 <img id="certImg" alt="Certificado" style="display:block; width:640px !important; max-width:100% !important; height:auto !important; max-height:none !important; border-radius:8px;">
 </div>
-  
+
 <script>
   var API = "https://payout-certify.vercel.app";
   var id = new URLSearchParams(location.search).get("id");
   var $ = function (x) { return document.getElementById(x); };
+  var inicio = Date.now();
+
+  function quitarLoader() {
+    if ($("loader")) $("loader").remove();
+  }
+
+  function mostrarCertificado() {
+    var espera = Math.max(0, 1500 - (Date.now() - inicio));
+    setTimeout(function () {
+      quitarLoader();
+      $("certificado").classList.add("visible");
+    }, espera);
+  }
 
   fetch(API + "/api/verify/" + encodeURIComponent(id))
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (c) {
-      if (!c) { $("estado").textContent = "Certificado no encontrado"; return; }
+      if (!c) { $("estado").textContent = "Certificado no encontrado"; quitarLoader(); return; }
       $("estado").textContent =
         c.status === "valid" ? "Certificado verificado" :
         c.status === "revoked" ? "Certificado revocado" : "Certificado de prueba";
+      $("certImg").onload = mostrarCertificado;
+      $("certImg").onerror = quitarLoader;
       $("certImg").src = API + "/api/verify/" + encodeURIComponent(c.certificateId) + "/image";
-    });
+    })
+    .catch(quitarLoader);
 </script>
     </article>
   </section>
@@ -274,11 +304,4 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
     x.fillRect(p[1],p[0],s,s); x.clearRect(p[1]+1,p[0]+1,s-2,s-2); x.fillRect(p[1]+2,p[0]+2,s-4,s-4);
   });
 })();
-    window.addEventListener('load', function () {
-    setTimeout(function () {
-      var loader = document.getElementById('loader');
-      loader.classList.add('oculto');
-      setTimeout(function () { loader.remove(); }, 500);
-    }, 1500);
-  });
 </script>
