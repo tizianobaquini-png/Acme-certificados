@@ -290,9 +290,10 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
     padding: 20px !important;
   }
 }
-  /* Centrar solo en celular */
+/* Centrar solo en celular */
 @media (max-width: 600px) {
   .centrar-mobile {
+    display: block;
     text-align: center !important;
   }
 }
@@ -313,7 +314,7 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
             <i class="fi fi--binfo"></i>
         </div>
     </div>
-    <span> <class="centrar-mobile"> Certificate is verified by FTMO.</span>
+<span class="centrar-mobile">Certificate is verified by FTMO</span>
   </div>
   <div class="notice info" role="note">
     <div class="alert__content-header">
@@ -422,7 +423,7 @@ footer{padding-block:12px 48px;font-size:12.5px;color:var(--ink-soft);display:gr
               <i class="fi fi--binfo"></i>
           </div>
       </div>
-      <span>Are you ready to become an FTMO Trader?</span>
+     <span class="centrar-mobile">Are you ready to become an FTMO Trader?</span>
     </div>
     <a class="btn" href="https://sso.ftmo.com/auth/realms/FTMO-Global/protocol/openid-connect/auth?redirect_uri=https%3A%2F%2Ftrader.ftmo.com%2Fapi%2Fauth%2Fcallback&scope=openid+email+profile&state=0d5a945d-7f4d-468a-b8d8-8efcec1f7ada&client_id=ftmo-trader&response_type=code">Start FTMO Challenge</a>
   </div>
